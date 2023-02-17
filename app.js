@@ -54,6 +54,11 @@ app.get('/', (req, res) => {
 });
 */
 
+//! route for deployment in Heroku
+app.get('/', (req, res) => {
+  res.send('jobs api');
+});
+
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter); // authentication before to enter in jobsRouter
 
