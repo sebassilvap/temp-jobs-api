@@ -11,6 +11,13 @@ const cors = require('cors');
 const xss = require('xss-clean');
 const rateLimiter = require('express-rate-limit');
 
+// ==================================================
+// for the API documentation - Swagger
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+// ==================================================
+
 const express = require('express');
 const app = express();
 
@@ -56,9 +63,25 @@ app.get('/', (req, res) => {
 
 //! route for deployment in Heroku
 app.get('/', (req, res) => {
-  res.send('jobs api');
+  res.send(`
+  <h1>JOBS API - SebasSilvaP 1st API</h1>
+  <h2>This is my first API</h2>
+  <h2>Thanks for visiting the link!</h2>
+  <ul>
+	<li>Made with NodeJS & ExpressJs</li>
+	<li>With jsonWebToken Package</li>
+	<li>bcrypt, cors, helmet, etc.. for the security</li>
+	<li>Using Mongo and Mongoose</li>
+	<li>Swagger & Yaml for the awesome documentation!</li>
+  </ul>
+  <a href="/api-docs">Check the AWESOME documentation</a>
+  `);
 });
 
+//! route for the documentation
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
+//! API ROUTES
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter); // authentication before to enter in jobsRouter
 
